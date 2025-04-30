@@ -1,0 +1,35 @@
+<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://jakarta.ee/xml/ns/jakartaee
+         http://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+  <servlet>
+    <servlet-name>OAuthCallbackServlet</servlet-name>
+    <servlet-class>com.example.controller.OAuthCallbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OAuthCallbackServlet</servlet-name>
+    <url-pattern>/oauth2callback</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GmailServlet</servlet-name>
+    <servlet-class>com.example.controller.GmailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GmailServlet</servlet-name>
+    <url-pattern>/send</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>FetchEmailServlet</servlet-name>
+    <servlet-class>com.example.controller.FetchEmailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FetchEmailServlet</servlet-name>
+    <url-pattern>/inbox</url-pattern>
+  </servlet-mapping>
+
+
+</web-app>
