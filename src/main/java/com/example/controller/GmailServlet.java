@@ -34,7 +34,7 @@ public class GmailServlet extends HttpServlet {
         }
     }
 
-    // === Added method starts here ===
+
     public static List<Message> listMessages(Gmail service, String userId) throws IOException {
         ListMessagesResponse response = service.users().messages().list(userId)
                 .setMaxResults(10L)
@@ -46,5 +46,5 @@ public class GmailServlet extends HttpServlet {
         }
         return messages;
     }
-    // === Added method ends here ===
+
 }

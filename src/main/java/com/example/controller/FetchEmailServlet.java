@@ -23,11 +23,11 @@ public class FetchEmailServlet extends HttpServlet {
             return;
         }
 
-        // Get the category (primary, social, etc.) from the request parameter
-        String category = request.getParameter("category");
-        String query = ""; // default query if no category is provided
 
-        // Add filters for categories if you need them (this is optional and depends on how you want to categorize emails)
+        String category = request.getParameter("category");
+        String query = "";
+
+
         if (category != null && !category.isEmpty()) {
             // Example: apply different queries based on categories
             switch (category) {
@@ -43,15 +43,15 @@ public class FetchEmailServlet extends HttpServlet {
                 case "promotions":
                     query = "category:promotions";
                     break;
-                // Add more categories or filters as needed
+
             }
         }
 
         try {
-            // Fetch messages with the applied query
+
             ListMessagesResponse listResponse = service.users().messages().list("me")
                     .setMaxResults(10L)
-                    .setQ(query)  // apply the filter query
+                    .setQ(query)
                     .execute();
 
             List<Map<String, String>> processedMessages = new ArrayList<>();
@@ -59,7 +59,6 @@ public class FetchEmailServlet extends HttpServlet {
                 for (Message m : listResponse.getMessages()) {
                     Message fullMessage = service.users().messages().get("me", m.getId()).execute();
 
-                    // Extract headers like "From", "Subject", and "Date"
                     Map<String, String> emailDetails = new HashMap<>();
                     for (MessagePartHeader header : fullMessage.getPayload().getHeaders()) {
                         if ("From".equals(header.getName())) {
@@ -75,13 +74,13 @@ public class FetchEmailServlet extends HttpServlet {
                 }
             }
 
-            // Return the messages as JSON response for the frontend to handle
+
             response.setContentType("application/json");
             response.getWriter().write(new com.google.gson.Gson().toJson(processedMessages));
 
         } catch (Exception e) {
             e.printStackTrace();
-            // In case of error, return an error message as JSON
+
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
             response.getWriter().write("{\"error\":\"Failed to fetch emails\"}");

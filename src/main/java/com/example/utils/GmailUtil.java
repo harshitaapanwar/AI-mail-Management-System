@@ -19,7 +19,7 @@ public class GmailUtil {
     private static final String CLIENT_SECRET = "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"; // 🔁 Replace with your actual Client Secret
     private static final String REDIRECT_URI = "http://localhost:8080/gmail-clone-oauth/oauth2callback"; // 🔁 Make sure it matches your Google Console config
 
-    // Generate the Google OAuth2 URL to redirect the user for login and consent
+
     public static String getAuthorizationUrl() throws Exception {
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
@@ -31,11 +31,11 @@ public class GmailUtil {
 
         return flow.newAuthorizationUrl()
                 .setRedirectUri(REDIRECT_URI)
-                .set("prompt", "select_account") // 👈 Forces account selection each time
+                .set("prompt", "select_account")
                 .build();
     }
 
-    // After user approves access and gives us the code, exchange it for tokens
+
     public static Credential exchangeCodeForTokens(String code) throws Exception {
         GoogleTokenResponse response = new GoogleAuthorizationCodeTokenRequest(
                 GoogleNetHttpTransport.newTrustedTransport(),
@@ -55,7 +55,7 @@ public class GmailUtil {
                 .setFromTokenResponse(response);
     }
 
-    // Get Gmail service object using the OAuth2 credentials
+
     public static Gmail getGmailService(Credential credential) throws Exception {
         return new Gmail.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
@@ -64,7 +64,7 @@ public class GmailUtil {
         ).setApplicationName("Gmail Clone").build();
     }
 
-    // Use the authenticated Gmail API to send a message
+
     public static void sendEmail(Credential credential, String to, String subject, String bodyText) throws Exception {
         Gmail service = getGmailService(credential);
 
@@ -73,7 +73,7 @@ public class GmailUtil {
         service.users().messages().send("me", message).execute();
     }
 
-    // Create the MimeMessage to be sent
+
     private static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -87,7 +87,6 @@ public class GmailUtil {
         return email;
     }
 
-    // Convert MimeMessage into a base64 encoded Gmail Message object
     private static Message createMessageWithEmail(MimeMessage emailContent) throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
@@ -95,14 +94,14 @@ public class GmailUtil {
         String encodedEmail = Base64.getUrlEncoder().encodeToString(bytes);
 
         Message message = new Message();
-        message.setRaw(encodedEmail); // ✅ This works with the correct import
+        message.setRaw(encodedEmail);
         return message;
     }
 
-    // Optionally, you can refresh the token if it's expired (offline access case)
+
     public static Credential refreshCredentials(Credential credential) throws Exception {
         if (credential.getAccessToken() == null || credential.getExpiresInSeconds() <= 60) {
-            // Refresh token if it's expired
+
             GoogleCredential refreshedCredential = new GoogleCredential.Builder()
                     .setTransport(GoogleNetHttpTransport.newTrustedTransport())
                     .setJsonFactory(JacksonFactory.getDefaultInstance())

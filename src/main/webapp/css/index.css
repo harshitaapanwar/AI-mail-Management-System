@@ -1,7 +1,7 @@
-/* Google Font */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-/* Reset Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,13 +10,12 @@
     scroll-behavior: smooth;
 }
 
-/* Body Styling */
+
 body {
     background: linear-gradient(135deg, #1b1b1b, #121212);
     color: #fff;
 }
 
-/* Navbar */
 header {
     display: flex;
     justify-content: space-between;
@@ -103,7 +102,6 @@ header {
     transform: scale(1.1);
 }
 
-/* Features Section */
 .features {
     padding: 80px 50px;
     text-align: center;
@@ -134,7 +132,6 @@ header {
     transform: scale(1.05);
 }
 
-/* Contact Section */
 .contact {
     padding: 80px 50px;
     text-align: center;
@@ -157,7 +154,6 @@ header {
     outline: none;
 }
 
-/* Footer */
 footer {
     text-align: center;
     padding: 20px;

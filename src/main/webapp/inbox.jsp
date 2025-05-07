@@ -84,7 +84,7 @@
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Compose modal functionality
+
     const composeBtn = document.querySelector('.compose-btn');
     const composeModal = document.getElementById('composeModal');
     const closeCompose = document.getElementById('closeCompose');
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         composeModal.style.display = 'none';
     });
 
-    // Load emails function
+
     window.loadEmails = function(category) {
         if (!category) {
             console.error("No category provided to loadEmails");
