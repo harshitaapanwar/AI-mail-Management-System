@@ -1,0 +1,46 @@
+12-May-2025 14:23:38.884 SEVERE [http-nio-8080-exec-2] org.apache.catalina.core.StandardWrapperValve.invoke Servlet.service() for servlet [jsp] in context with path [/InThread] threw exception [An exception occurred processing [/index.jsp] at line [22]
+
+19:                 <li><a href="#features">Features</a></li>
+20:                 <li><a href="#contact">Contact</a></li>
+21:                 <li>
+22:                     <a href="<%= GmailUtil.getAuthorizationUrl() %>">
+23:                         <button class="btn-login">Login with Google</button>
+24:                     </a>
+25:                 </li>
+
+
+Stacktrace:] with root cause
+	java.lang.NullPointerException
+		at java.base/java.io.Reader.<init>(Reader.java:168)
+		at java.base/java.io.InputStreamReader.<init>(InputStreamReader.java:88)
+		at com.example.utils.GmailService.getFlow(GmailService.java:48)
+		at com.example.utils.GmailUtil.getAuthorizationUrl(GmailUtil.java:10)
+		at org.apache.jsp.index_jsp._jspService(index_jsp.java:145)
+		at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:64)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:436)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:357)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:308)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1570)

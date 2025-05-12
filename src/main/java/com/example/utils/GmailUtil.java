@@ -1,118 +1,17 @@
 package com.example.utils;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.*;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Message;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.io.*;
-import java.util.*;
-import java.util.Base64;
+import java.io.IOException;
 
 public class GmailUtil {
-
-    private static final String CLIENT_ID = "75653762447-vtcp1so96h931v439tpspescc494hd7g.apps.googleusercontent.com"; // 🔁 Replace with your actual Client ID
-    private static final String CLIENT_SECRET = "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"; // 🔁 Replace with your actual Client Secret
-    private static final String REDIRECT_URI = "http://localhost:8080/gmail-clone-oauth/oauth2callback"; // 🔁 Make sure it matches your Google Console config
-
-
-    public static String getAuthorizationUrl() throws Exception {
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                CLIENT_ID,
-                CLIENT_SECRET,
-                Collections.singletonList("https://www.googleapis.com/auth/gmail.modify")
+    public static String getAuthorizationUrl() throws IOException {
+        GoogleAuthorizationCodeFlow flow = GmailService.getFlow();
+        return new GoogleAuthorizationCodeRequestUrl(
+                flow.getClientId(),
+                "http://localhost:8080/gmail-clone-oauth/oauth2callback",
+                flow.getScopes()
         ).setAccessType("offline").build();
-
-        return flow.newAuthorizationUrl()
-                .setRedirectUri(REDIRECT_URI)
-                .set("prompt", "select_account")
-                .build();
     }
-
-
-    public static Credential exchangeCodeForTokens(String code) throws Exception {
-        GoogleTokenResponse response = new GoogleAuthorizationCodeTokenRequest(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                "https://oauth2.googleapis.com/token",
-                CLIENT_ID,
-                CLIENT_SECRET,
-                code,
-                REDIRECT_URI
-        ).execute();
-
-        return new GoogleCredential.Builder()
-                .setTransport(GoogleNetHttpTransport.newTrustedTransport())
-                .setJsonFactory(JacksonFactory.getDefaultInstance())
-                .setClientSecrets(CLIENT_ID, CLIENT_SECRET)
-                .build()
-                .setFromTokenResponse(response);
-    }
-
-
-    public static Gmail getGmailService(Credential credential) throws Exception {
-        return new Gmail.Builder(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                credential
-        ).setApplicationName("Gmail Clone").build();
-    }
-
-
-    public static void sendEmail(Credential credential, String to, String subject, String bodyText) throws Exception {
-        Gmail service = getGmailService(credential);
-
-        MimeMessage mimeMessage = createEmail(to, "me", subject, bodyText);
-        Message message = createMessageWithEmail(mimeMessage);
-        service.users().messages().send("me", message).execute();
-    }
-
-
-    private static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-
-        MimeMessage email = new MimeMessage(session);
-        email.setFrom(new InternetAddress(from));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
-        email.setSubject(subject);
-        email.setText(bodyText);
-
-        return email;
-    }
-
-    private static Message createMessageWithEmail(MimeMessage emailContent) throws Exception {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        emailContent.writeTo(buffer);
-        byte[] bytes = buffer.toByteArray();
-        String encodedEmail = Base64.getUrlEncoder().encodeToString(bytes);
-
-        Message message = new Message();
-        message.setRaw(encodedEmail);
-        return message;
-    }
-
-
-    public static Credential refreshCredentials(Credential credential) throws Exception {
-        if (credential.getAccessToken() == null || credential.getExpiresInSeconds() <= 60) {
-
-            GoogleCredential refreshedCredential = new GoogleCredential.Builder()
-                    .setTransport(GoogleNetHttpTransport.newTrustedTransport())
-                    .setJsonFactory(JacksonFactory.getDefaultInstance())
-                    .setClientSecrets(CLIENT_ID, CLIENT_SECRET)
-                    .build()
-                    .setFromTokenResponse(new GoogleTokenResponse().setRefreshToken(credential.getRefreshToken()));
-
-            refreshedCredential.refreshToken();
-            return refreshedCredential;
-        }
-        return credential;
-    }
-
 }

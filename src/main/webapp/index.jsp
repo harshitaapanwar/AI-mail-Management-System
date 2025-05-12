@@ -1,3 +1,11 @@
+<html>
+<body>
+    <h2>Login</h2>
+    <a href="login">Login with Google</a>
+</body>
+</html>
+
+
 <%@ page import="com.example.utils.GmailUtil" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,11 +26,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li>
-                    <a href="<%= GmailUtil.getAuthorizationUrl() %>">
-                        <button class="btn-login">Login with Google</button>
-                    </a>
-                </li>
+                <li><a href="login">Login with Google</a></li>
             </ul>
         </nav>
     </header>
