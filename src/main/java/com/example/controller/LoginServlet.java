@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.utils.GmailService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ public class LoginServlet extends HttpServlet {
         try {
             GoogleAuthorizationCodeRequestUrl authUrl = new GoogleAuthorizationCodeRequestUrl(
                     GmailService.getFlow().getClientId(),
-                    "http://localhost:8080/gmail-clone-oauth/oauth2callback",
+                    "http://localhost:8080/InThread/oauth2callback",
                     GmailService.getFlow().getScopes()
             );
             authUrl.setAccessType("offline");

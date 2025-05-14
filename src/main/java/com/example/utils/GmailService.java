@@ -28,7 +28,8 @@ public class GmailService {
     private static final String CLIENT_SECRET_FILE = "/credentials.json";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final String REDIRECT_URI = "http://localhost:8080/gmail-clone-oauth/oauth2callback";
+    private static final String REDIRECT_URI = "http://localhost:8080/InThread/oauth2callback";
+
     private static final List<String> SCOPES = Arrays.asList(
             "https://www.googleapis.com/auth/gmail.readonly",
             "https://www.googleapis.com/auth/gmail.send"

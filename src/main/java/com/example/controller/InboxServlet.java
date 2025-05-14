@@ -4,7 +4,6 @@ import com.example.utils.GmailService;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.gmail.model.Message;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
