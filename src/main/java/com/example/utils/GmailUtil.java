@@ -10,7 +10,7 @@ public class GmailUtil {
         GoogleAuthorizationCodeFlow flow = GmailService.getFlow();
         return new GoogleAuthorizationCodeRequestUrl(
                 flow.getClientId(),
-                "http://localhost:8080/gmail-clone-oauth/oauth2callback",
+                "http://localhost:8080/InThread/oauth2callback", // Corrected URI
                 flow.getScopes()
         ).setAccessType("offline").build();
     }

@@ -11,33 +11,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class InboxServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(InboxServlet.class);
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Credential credential = (Credential) req.getSession().getAttribute("credential");
-        if (credential != null) {
-            try {
-                GmailService service = new GmailService(credential);
-                List<Message> messageList = service.getInboxEmails();
-                List<Message> detailedMessages = new ArrayList<>();
-                for (Message msg : messageList) {
-                    detailedMessages.add(service.getMessageDetails(msg.getId()));
-                }
-                req.setAttribute("messages", detailedMessages);
-                req.getRequestDispatcher("inbox.jsp").forward(req, resp);
-                LOGGER.info("Retrieved {} inbox messages", detailedMessages.size());
-            } catch (Exception e) {
-                LOGGER.error("Failed to retrieve emails", e);
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to retrieve emails: " + e.getMessage());
+        try {
+            Credential credential = (Credential) req.getSession().getAttribute("credential");
+            if (credential == null) {
+                LOGGER.warn("No credentials found in session. Redirecting to login.");
+                resp.sendRedirect("login"); // Adjust to your login URL
+                return;
             }
-        } else {
-            LOGGER.warn("Gmail service not initialized");
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Gmail service not initialized.");
+
+            GmailService service = new GmailService(credential);
+            List<Message> messages = service.getInboxEmails();
+            req.setAttribute("messages", messages);
+            req.getRequestDispatcher("send.jsp").forward(req, resp);
+        } catch (Exception e) {
+            LOGGER.error("Failed to fetch inbox emails", e);
+            req.setAttribute("error", "Failed to fetch emails: " + e.getMessage());
+            req.getRequestDispatcher("send.jsp").forward(req, resp);
         }
     }
 }

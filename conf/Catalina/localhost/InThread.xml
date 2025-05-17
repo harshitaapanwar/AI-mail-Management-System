@@ -37,5 +37,6 @@
     <PostResources base="C:/Users/harsh/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/slf4j-api-2.0.13.jar"/>
     <PostResources base="C:/Users/harsh/.m2/repository/ch/qos/logback/logback-classic/1.5.7/logback-classic-1.5.7.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/logback-classic-1.5.7.jar"/>
     <PostResources base="C:/Users/harsh/.m2/repository/ch/qos/logback/logback-core/1.5.7/logback-core-1.5.7.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/logback-core-1.5.7.jar"/>
+    <PostResources base="C:/Users/harsh/.m2/repository/com/google/apis/google-api-services-people/v1-rev20240313-2.0.0/google-api-services-people-v1-rev20240313-2.0.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/google-api-services-people-v1-rev20240313-2.0.0.jar"/>
   </Resources>
 </Context>

@@ -65,6 +65,17 @@
       <version>1.5.7</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-people</artifactId>
+      <version>v1-rev20240313-2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>InThread</finalName>

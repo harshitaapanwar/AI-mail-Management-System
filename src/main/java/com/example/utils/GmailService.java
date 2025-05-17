@@ -10,9 +10,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
-import jakarta.mail.Session;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,19 +26,21 @@ import java.util.Properties;
 public class GmailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GmailService.class);
     private static final String CLIENT_SECRET_FILE = "/credentials.json";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    public static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final String REDIRECT_URI = "http://localhost:8080/InThread/oauth2callback";
 
     private static final List<String> SCOPES = Arrays.asList(
             "https://www.googleapis.com/auth/gmail.readonly",
-            "https://www.googleapis.com/auth/gmail.send"
+            "https://www.googleapis.com/auth/gmail.send",
+            "profile",
+            "email"
     );
 
-    private Gmail service;
+    private final Gmail service;
 
     public GmailService(Credential credential) {
-        service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+        this.service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName("Mail Management System")
                 .build();
     }
@@ -51,10 +53,11 @@ public class GmailService {
         return new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setAccessType("offline")
+                .setApprovalPrompt("force") // Always ask for consent to ensure refresh token
                 .build();
     }
 
-    public Credential setUp(String authorizationCode) throws IOException {
+    public static Credential setUp(String authorizationCode) throws IOException {
         GoogleAuthorizationCodeFlow flow = getFlow();
         GoogleTokenResponse response = flow.newTokenRequest(authorizationCode)
                 .setRedirectUri(REDIRECT_URI)
@@ -62,43 +65,85 @@ public class GmailService {
         return flow.createAndStoreCredential(response, "user");
     }
 
-    public void sendEmail(String to, String subject, String bodyText) throws Exception {
-        MimeMessage email = createEmail(to, "me", subject, bodyText);
+    public void sendEmail(String to, String subject, String bodyHtml) throws MessagingException, IOException {
+        LOGGER.info("Sending email to: {} with subject: {}", to, subject);
+
+        MimeMessage email = createMultipartEmail(to, "me", subject, bodyHtml);
         Message message = createMessageWithEmail(email);
-        service.users().messages().send("me", message).execute();
-        LOGGER.info("Email sent to {}", to);
+
+        Message sentMessage = service.users().messages().send("me", message).execute();
+
+        LOGGER.info("Email sent to {}, Message ID: {}", to, sentMessage.getId());
     }
 
-    public List<Message> getInboxEmails() throws IOException {
-        return service.users().messages().list("me")
-                .setMaxResults(10L)
-                .setQ("from:me OR to:me")
-                .execute()
-                .getMessages();
-    }
+    private MimeMessage createMultipartEmail(String to, String from, String subject, String htmlContent) throws MessagingException {
+        LOGGER.debug("Creating MIME email to: {}, from: {}, subject: {}", to, from, subject);
 
-    public Message getMessageDetails(String messageId) throws IOException {
-        return service.users().messages().get("me", messageId).setFormat("full").execute();
-    }
-
-    private MimeMessage createEmail(String to, String from, String subject, String bodyText) throws Exception {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
+
         email.setFrom(new InternetAddress(from));
         email.addRecipient(jakarta.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject);
-        email.setText(bodyText);
+
+        // Create multipart alternative: plain + HTML
+        MimeBodyPart plainPart = new MimeBodyPart();
+        plainPart.setText(stripHtmlTags(htmlContent), "utf-8");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
+
+        Multipart multipart = new MimeMultipart("alternative");
+        multipart.addBodyPart(plainPart);
+        multipart.addBodyPart(htmlPart);
+
+        email.setContent(multipart);
+
         return email;
     }
 
-    private Message createMessageWithEmail(MimeMessage email) throws Exception {
+    private String stripHtmlTags(String html) {
+        return html.replaceAll("<[^>]*>", "").replaceAll("&nbsp;", " ").trim();
+    }
+
+    private Message createMessageWithEmail(MimeMessage email) throws MessagingException, IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
-        byte[] bytes = buffer.toByteArray();
-        String encodedEmail = java.util.Base64.getUrlEncoder().encodeToString(bytes);
+        byte[] rawBytes = buffer.toByteArray();
+        String encodedEmail = java.util.Base64.getUrlEncoder().encodeToString(rawBytes);
+
         Message message = new Message();
         message.setRaw(encodedEmail);
+
         return message;
+    }
+
+    public List<Message> getInboxEmails() throws IOException {
+        LOGGER.debug("Fetching recent inbox emails");
+        try {
+            List<Message> messages = service.users().messages().list("me")
+                    .setMaxResults(10L)
+                    .setQ("from:me OR to:me")
+                    .execute()
+                    .getMessages();
+            LOGGER.info("Fetched {} messages from inbox", messages != null ? messages.size() : 0);
+            return messages;
+        } catch (IOException e) {
+            LOGGER.error("Failed to fetch inbox emails", e);
+            throw e;
+        }
+    }
+
+    public Message getMessageDetails(String messageId) throws IOException {
+        LOGGER.debug("Fetching message details for ID: {}", messageId);
+        try {
+            Message message = service.users().messages().get("me", messageId).setFormat("full").execute();
+            LOGGER.info("Fetched details for message ID: {}", messageId);
+            return message;
+        } catch (IOException e) {
+            LOGGER.error("Failed to fetch message details for ID: {}", messageId, e);
+            throw e;
+        }
     }
 }
