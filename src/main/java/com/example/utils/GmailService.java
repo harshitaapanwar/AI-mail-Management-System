@@ -9,6 +9,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -31,7 +33,7 @@ public class GmailService {
     private static final String REDIRECT_URI = "http://localhost:8080/InThread/oauth2callback";
 
     private static final List<String> SCOPES = Arrays.asList(
-            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.modify",
             "https://www.googleapis.com/auth/gmail.send",
             "profile",
             "email"
@@ -104,7 +106,7 @@ public class GmailService {
     }
 
     private String stripHtmlTags(String html) {
-        return html.replaceAll("<[^>]*>", "").replaceAll("&nbsp;", " ").trim();
+        return html.replaceAll("<[^>]*>", "").replaceAll(" ", " ").trim();
     }
 
     private Message createMessageWithEmail(MimeMessage email) throws MessagingException, IOException {
@@ -120,19 +122,31 @@ public class GmailService {
     }
 
     public List<Message> getInboxEmails() throws IOException {
-        LOGGER.debug("Fetching recent inbox emails");
-        try {
-            List<Message> messages = service.users().messages().list("me")
-                    .setMaxResults(10L)
-                    .setQ("from:me OR to:me")
-                    .execute()
-                    .getMessages();
-            LOGGER.info("Fetched {} messages from inbox", messages != null ? messages.size() : 0);
-            return messages;
-        } catch (IOException e) {
-            LOGGER.error("Failed to fetch inbox emails", e);
-            throw e;
+        List<Message> fullMessages = new ArrayList<>();
+
+        // List messages from INBOX
+        ListMessagesResponse response = service.users().messages()
+                .list("me")
+                .setLabelIds(Arrays.asList("INBOX"))
+
+                .setMaxResults(10L)
+                .execute();
+
+        List<Message> messages = response.getMessages();
+        if (messages == null || messages.isEmpty()) {
+            return fullMessages;
         }
+
+        for (Message message : messages) {
+            Message fullMessage = service.users().messages()
+                    .get("me", message.getId())
+                    .setFormat("full") // Needed to access headers and payload
+                    .execute();
+
+            fullMessages.add(fullMessage);
+        }
+
+        return fullMessages;
     }
 
     public Message getMessageDetails(String messageId) throws IOException {

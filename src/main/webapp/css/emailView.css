@@ -1,0 +1,121 @@
+
+:root {
+    --primary-color: #1a73e8;
+    --primary-dark: #1557b0;
+    --text-color: #202124;
+    --text-secondary: #5f6368;
+    --border-color: #dadce0;
+    --bg-color: #ffffff;
+    --sidebar-bg: #f8f9fa;
+    --transition: all 0.2s ease-in-out;
+}
+
+[data-theme="dark"] {
+    --primary-color: #8ab4f8;
+    --primary-dark: #669df6;
+    --text-color: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --border-color: #5f6368;
+    --bg-color: #1c2526;
+    --sidebar-bg: #252f3f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.email-view-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background: var(--bg-color);
+}
+
+.email-view-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--sidebar-bg);
+}
+
+.email-view-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--text-color);
+}
+
+.email-view-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.email-view-close:hover {
+    color: var(--text-color);
+}
+
+.email-view-details {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+}
+
+.email-view-details p {
+    margin: 8px 0;
+    color: var(--text-color);
+}
+
+.email-view-body {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .email-view-container {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .email-view-header h3 {
+        font-size: 1.3em;
+    }
+
+    .email-view-details p,
+    .email-view-body {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .email-view-header h3 {
+        font-size: 1.1em;
+    }
+
+    .email-view-details p,
+    .email-view-body {
+        font-size: 13px;
+    }
+}

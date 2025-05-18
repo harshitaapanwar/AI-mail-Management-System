@@ -28,12 +28,16 @@ public class InboxServlet extends HttpServlet {
 
             GmailService service = new GmailService(credential);
             List<Message> messages = service.getInboxEmails();
-            req.setAttribute("messages", messages);
-            req.getRequestDispatcher("send.jsp").forward(req, resp);
+
+            if (messages != null) {
+                req.setAttribute("messages", messages);
+            }
+
+            req.getRequestDispatcher("send.jsp").forward(req, resp); // ← Use inbox.jsp or rename send.jsp
         } catch (Exception e) {
             LOGGER.error("Failed to fetch inbox emails", e);
             req.setAttribute("error", "Failed to fetch emails: " + e.getMessage());
-            req.getRequestDispatcher("send.jsp").forward(req, resp);
+            req.getRequestDispatcher("inbox.jsp").forward(req, resp); // ← Same here
         }
     }
 }

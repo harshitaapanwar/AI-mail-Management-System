@@ -114,55 +114,42 @@
           </div>
         </div>
         <div class="email-list">
-          <% if (request.getAttribute("error") != null) { %>
-            <p class="error"><%= request.getAttribute("error") %></p>
-          <% } %>
-          <% if (request.getAttribute("success") != null) { %>
-            <p class="success"><%= request.getAttribute("success") %></p>
-          <% } %>
+          <%-- Static email list --%>
           <%
-            List<Message> messages = (List<Message>) request.getAttribute("messages");
-            if (messages != null && !messages.isEmpty()) {
-              for (Message message : messages) {
-                String from = "Unknown";
-                String subject = "No Subject";
-                String snippet = message.getSnippet() != null ? message.getSnippet() : "";
-                String date = "Unknown";
-
-                // Extract headers
-                for (com.google.api.services.gmail.model.MessagePartHeader header : message.getPayload().getHeaders()) {
-                  if ("From".equals(header.getName())) {
-                    from = header.getValue();
-                  } else if ("Subject".equals(header.getName())) {
-                    subject = header.getValue();
-                  } else if ("Date".equals(header.getName())) {
-                    date = header.getValue();
-                  }
-                }
-          %>
-            <div class="email-item" role="button" aria-label="Email from <%= from %>">
-              <div class="email-select">
-                <input type="checkbox" id="email_<%= message.getId() %>" aria-label="Select email">
-                <label for="email_<%= message.getId() %>"></label>
-              </div>
-              <div class="email-star">
-                <button class="star-btn" aria-label="Star email">
-                  <i class="far fa-star"></i>
-                </button>
-              </div>
-              <div class="email-from"><%= from %></div>
-              <div class="email-preview">
-                <div class="email-subject"><%= subject %></div>
-                <div class="email-snippet"><%= snippet %></div>
-                <div class="email-time"><%= date %></div>
-              </div>
-            </div>
-          <%
+            class StaticEmail {
+              String from, subject, date, body;
+              StaticEmail(String f, String s, String d, String b) {
+                from = f; subject = s; date = d; body = b;
               }
-            } else {
+            }
+            List<StaticEmail> staticEmails = List.of(
+              new StaticEmail("john@example.com", "Welcome to Inthread!", "2025-05-18", "Hello there!\nThanks for joining Inthread."),
+              new StaticEmail("admin@inthread.com", "System Update Notice", "2025-05-17", "A scheduled maintenance will occur tomorrow."),
+              new StaticEmail("boss@company.com", "Project Deadline Reminder", "2025-05-16", "Please complete the report by EOD."),
+              new StaticEmail("news@techdaily.com", "Tech Weekly Digest", "2025-05-15", "Here's your weekly dose of tech news."),
+              new StaticEmail("alerts@bank.com", "Transaction Alert", "2025-05-14", "You spent $230 on your card."),
+              new StaticEmail("jane@friends.com", "Weekend Plans", "2025-05-13", "Let's meet at 6 PM for dinner."),
+              new StaticEmail("sales@onlinestore.com", "Your Order #12345", "2025-05-12", "Your order has been shipped."),
+              new StaticEmail("support@inthread.com", "Support Ticket Closed", "2025-05-11", "Your support ticket has been resolved."),
+              new StaticEmail("invite@events.com", "You're Invited!", "2025-05-10", "Join us for the annual gala night."),
+              new StaticEmail("hr@company.com", "Policy Update", "2025-05-09", "Please review the updated company policies.")
+            );
+            int index = 0;
+            for (StaticEmail mail : staticEmails) {
           %>
-            <p>No emails found.</p>
-          <% } %>
+              <div class="email-item" style="border-bottom: 1px solid #ddd; padding: 10px; cursor: pointer;"
+                   data-subject="<%= mail.subject.replace("\"", "") %>"
+                   data-from="<%= mail.from.replace("\"", "") %>"
+                   data-date="<%= mail.date %>"
+                   data-body="<%= mail.body.replace("\"", "").replace("\n", "<br>") %>">
+                <div class="email-from"><strong>From:</strong> <%= mail.from %></div>
+                <div class="email-subject"><strong>Subject:</strong> <%= mail.subject %></div>
+                <div class="email-date"><strong>Date:</strong> <%= mail.date %></div>
+              </div>
+          <%
+              index++;
+            }
+          %>
         </div>
       </main>
     </div>

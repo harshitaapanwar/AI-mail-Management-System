@@ -62,6 +62,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Add click listeners to email items to redirect to emailView.jsp
+    document.querySelectorAll('.email-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const subject = item.dataset.subject;
+            const from = item.dataset.from;
+            const date = item.dataset.date;
+            const body = item.dataset.body;
+
+            // Clear previous selection
+            document.querySelectorAll('.email-item').forEach(el => el.classList.remove('active'));
+            item.classList.add('active');
+
+            // Redirect to emailView.jsp with query parameters
+            const url = `emailView.jsp?subject=${encodeURIComponent(subject)}&from=${encodeURIComponent(from)}&date=${encodeURIComponent(date)}&body=${encodeURIComponent(body)}`;
+            window.location.href = url;
+        });
+    });
+
     // Form submission handler
     if (composeForm) {
         composeForm.addEventListener('submit', async function (e) {
