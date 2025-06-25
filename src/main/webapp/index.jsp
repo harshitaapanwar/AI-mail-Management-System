@@ -1,11 +1,3 @@
-<html>
-<body>
-    <h2>Login</h2>
-    <a href="login">Login with Google</a>
-</body>
-</html>
-
-
 <%@ page import="com.example.utils.GmailUtil" %>
 <!DOCTYPE html>
 <html lang="en">

@@ -151,6 +151,33 @@
             }
           %>
         </div>
+      <!-- Email View Panel -->
+      <div class="email-view-panel" id="emailViewPanel">
+        <div class="email-view-header">
+          <h3 id="panelEmailSubject"></h3>
+          <div class="email-view-actions">
+            <button id="panelCloseBtn" title="Close"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+
+        <div class="email-view-details">
+          <p><strong>From:</strong> <span id="panelEmailFrom"></span></p>
+          <p><strong>Date:</strong> <span id="panelEmailDate"></span></p>
+        </div>
+
+        <div class="email-view-body" id="panelEmailBody">
+          <!-- Email content loads here -->
+        </div>
+
+        <div class="email-view-actions-bar">
+          <button class="action-btn" id="translateBtn"><i class="fas fa-language"></i> Translate</button>
+          <button class="action-btn" id="voiceBtn"><i class="fas fa-headphones"></i> AI Voice</button>
+          <button class="action-btn" id="summaryBtn"><i class="fas fa-file-alt"></i> Summary</button>
+          <button class="action-btn" id="trashBtn"><i class="fas fa-trash"></i> Trash</button>
+        </div>
+      </div>
+
+
       </main>
     </div>
 

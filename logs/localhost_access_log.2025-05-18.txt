@@ -55,3 +55,6 @@
 0:0:0:0:0:0:0:1 - - [18/May/2025:18:23:47 +0530] "GET /InThread/css/emailView.js HTTP/1.1" 304 -
 0:0:0:0:0:0:0:1 - - [18/May/2025:18:23:49 +0530] "GET /InThread/emailView.jsp?subject=Tech%20Weekly%20Digest&from=news%40techdaily.com&date=2025-05-15&body=Here%27s%20your%20weekly%20dose%20of%20tech%20news. HTTP/1.1" 200 1157
 0:0:0:0:0:0:0:1 - - [18/May/2025:18:24:10 +0530] "POST /InThread/send HTTP/1.1" 200 40
+0:0:0:0:0:0:0:1 - - [18/May/2025:18:28:40 +0530] "GET /InThread/emailView.jsp?subject=Welcome%20to%20Inthread!&from=john%40example.com&date=2025-05-18&body=Hello%20there!%3Cbr%3EThanks%20for%20joining%20Inthread. HTTP/1.1" 200 1157
+0:0:0:0:0:0:0:1 - - [18/May/2025:18:28:40 +0530] "GET /InThread/css/emailView.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [18/May/2025:18:28:40 +0530] "GET /InThread/css/emailView.js HTTP/1.1" 304 -
