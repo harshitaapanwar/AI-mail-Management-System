@@ -47,6 +47,18 @@
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>TranslateServlet</servlet-name>
+    <servlet-class>com.example.controller.TranslateServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TranslateServlet</servlet-name>
+    <url-pattern>/translate</url-pattern>
+  </servlet-mapping>
+
+
+
 
   <session-config>
     <session-timeout>30</session-timeout> <!-- 30 minutes -->

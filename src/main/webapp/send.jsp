@@ -123,17 +123,54 @@
               }
             }
             List<StaticEmail> staticEmails = List.of(
-              new StaticEmail("john@example.com", "Welcome to Inthread!", "2025-05-18", "Hello there!\nThanks for joining Inthread."),
-              new StaticEmail("admin@inthread.com", "System Update Notice", "2025-05-17", "A scheduled maintenance will occur tomorrow."),
-              new StaticEmail("boss@company.com", "Project Deadline Reminder", "2025-05-16", "Please complete the report by EOD."),
-              new StaticEmail("news@techdaily.com", "Tech Weekly Digest", "2025-05-15", "Here's your weekly dose of tech news."),
-              new StaticEmail("alerts@bank.com", "Transaction Alert", "2025-05-14", "You spent $230 on your card."),
-              new StaticEmail("jane@friends.com", "Weekend Plans", "2025-05-13", "Let's meet at 6 PM for dinner."),
-              new StaticEmail("sales@onlinestore.com", "Your Order #12345", "2025-05-12", "Your order has been shipped."),
-              new StaticEmail("support@inthread.com", "Support Ticket Closed", "2025-05-11", "Your support ticket has been resolved."),
-              new StaticEmail("invite@events.com", "You're Invited!", "2025-05-10", "Join us for the annual gala night."),
-              new StaticEmail("hr@company.com", "Policy Update", "2025-05-09", "Please review the updated company policies.")
+                new StaticEmail("InthreadOfficial@google.com", "Welcome to Inthread!", "2025-05-18",
+                    "Dear Harshita,\n\nWelcome to Inthread – your new intelligent email companion. We're excited to have you join our platform!\n\n" +
+                    "With Inthread, you can:\n- Summarize long emails instantly\n- Translate content in real time\n- Edit emails even after sending\n\n" +
+                    "To get started, log in to your dashboard and explore your inbox. If you have any questions or feedback, feel free to reach out to our support team anytime.\n\n" +
+                    "Best regards,\nThe Inthread Team"),
+
+                new StaticEmail("admin@inthread.com", "System Update Notice", "2025-05-17",
+                    "Dear User,\n\nThis is to inform you about a scheduled maintenance window on **May 19th, from 1:00 AM to 4:00 AM IST**. " +
+                    "During this time, the Inthread platform may experience intermittent downtime.\n\n" +
+                    "We're upgrading our infrastructure to improve performance and reliability. Your data will remain safe and secure.\n\n" +
+                    "Thank you for your patience and continued support.\n\nSincerely,\nInthread Admin Team"),
+
+                new StaticEmail("boss@company.com", "Project Deadline Reminder", "2025-05-16",
+                    "Hi Harshita,\n\nJust a quick reminder that the final report for the Q2 marketing analysis is due today by **5:00 PM sharp**.\n\n" +
+                    "Please ensure that:\n- All graphs and charts are updated\n- Feedback from the last meeting is incorporated\n- The report is uploaded to the shared drive\n\n" +
+                    "Let me know if you're facing any blockers. Great work so far – we're almost there.\n\nRegards,\nMr. Sharma"),
+
+                new StaticEmail("news@techdaily.com", "Tech Weekly Digest", "2025-05-15",
+                    "Hello Tech Enthusiast,\n\nHere’s your curated digest of the top stories from this week:\n\n" +
+                    "🧠 OpenAI unveils GPT-5 with improved contextual memory\n📱 Samsung confirms Galaxy Fold 6 launch for August\n🌐 India's 6G roadmap gets greenlight from TRAI\n\n" +
+                    "Bonus Read: How quantum computing could reshape email encryption.\n\nStay curious!\n\n– The TechDaily Team"),
+
+                new StaticEmail("alerts@bank.com", "Transaction Alert", "2025-05-14",
+                    "Dear Customer,\n\nA transaction of ₹18,750.00 was made on your debit card ending with 1021 at Amazon India on 14-May-2025 at 10:32 AM.\n\n" +
+                    "If this transaction is unauthorized, please call our 24/7 helpline at 1800-987-654 immediately.\n\nThank you for banking with us.\n\nSincerely,\nAxis Bank"),
+
+                new StaticEmail("jane@friends.com", "Weekend Plans", "2025-05-13",
+                    "Hey Harshita,\n\nLet’s finally catch up this Saturday! I’m thinking dinner at Olive Bistro at 7 PM. They’ve got great live music and amazing mocktails.\n\n" +
+                    "Also, I wanted to show you my new sketchbook – been drawing again lately 😊.\n\nLet me know if that works!\n\nCheers,\nJane"),
+
+                new StaticEmail("sales@onlinestore.com", "Your Order #12345", "2025-05-12",
+                    "Hi Harshita,\n\nGood news! Your order #12345 has been shipped and is expected to be delivered by May 14th.\n\n" +
+                    "**Items Shipped:**\n- Samsung Galaxy Buds2\n- Protective Carry Case\n\nTrack your shipment here: [Track My Order]\n\nThanks for shopping with us!\n\nTeam ShopNow"),
+
+                new StaticEmail("support@inthread.com", "Support Ticket Closed", "2025-05-11",
+                    "Hello Harshita,\n\nWe’re happy to inform you that your support ticket regarding Gmail login failure has been successfully resolved.\n\n" +
+                    "**Resolution:** The issue was related to an outdated token. We’ve refreshed your OAuth credentials and verified your login.\n\n" +
+                    "Please try accessing your inbox again. Let us know if you encounter any further problems.\n\nWarm regards,\nInthread Support"),
+
+                new StaticEmail("invite@events.com", "You're Invited!", "2025-05-10",
+                    "Dear Harshita,\n\nYou’re cordially invited to the **Annual Gala Night 2025** – a celebration of innovation, community, and excellence.\n\n" +
+                    "**Date:** May 30, 2025\n**Time:** 6:00 PM onwards\n**Venue:** Taj Palace, Delhi\n\nThe evening will feature:\n- Award ceremonies\n- Live performances\n- Networking dinner\n\nDress Code: Formal\n\nRSVP by May 20th to confirm your presence.\n\nSee you there!\n– Events Team"),
+
+                new StaticEmail("hr@company.com", "Policy Update", "2025-05-09",
+                    "Hello Team,\n\nPlease take a moment to review the updated HR policies effective from June 1, 2025. Key updates include:\n\n" +
+                    "1. Remote Work Flexibility – Up to 3 days/week\n2. New Reimbursement Policy for Internet & Equipment\n3. Revised Code of Conduct for Hybrid Meetings\n\nYou can view the full policy document on the intranet (HR > Policies).\n\nAcknowledgment is required by May 25th.\n\nRegards,\nHuman Resources")
             );
+
             int index = 0;
             for (StaticEmail mail : staticEmails) {
           %>
@@ -169,12 +206,42 @@
           <!-- Email content loads here -->
         </div>
 
-        <div class="email-view-actions-bar">
-          <button class="action-btn" id="translateBtn"><i class="fas fa-language"></i> Translate</button>
-          <button class="action-btn" id="voiceBtn"><i class="fas fa-headphones"></i> AI Voice</button>
-          <button class="action-btn" id="summaryBtn"><i class="fas fa-file-alt"></i> Summary</button>
-          <button class="action-btn" id="trashBtn"><i class="fas fa-trash"></i> Trash</button>
-        </div>
+       <div class="email-view-actions-bar">
+
+
+         <button class="action-btn" id="translateBtn"><i class="fas fa-language"></i> Translate</button>
+         <button class="action-btn" id="voiceBtn"><i class="fas fa-headphones"></i> AI Voice</button>
+
+         <button class="action-btn" id="summaryBtn"><i class="fas fa-file-alt"></i> Summary</button>
+         <button class="action-btn" id="trashBtn"><i class="fas fa-trash"></i> Trash</button>
+       </div>
+      <!-- Floating Summary Box -->
+     <div id="floatingSummaryBox" style="
+       position: absolute;
+       right: 30px;
+       top: 100px;
+       width: 280px;
+       background: #fff;
+       border: 1px solid #ccc;
+       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+       padding: 15px;
+       font-size: 14px;
+       line-height: 1.4;
+       font-style: italic;
+       border-radius: 8px;
+       z-index: 999;
+       display: none;
+     ">
+       <button onclick="document.getElementById('floatingSummaryBox').style.display='none'"
+         style="position: absolute; top: 5px; right: 8px; background: transparent; border: none; font-size: 16px; cursor: pointer;">
+         &times;
+       </button>
+       <strong>📄 Summary</strong>
+       <div id="summaryTextContent" style="margin-top: 10px;"></div>
+     </div>
+
+
+
       </div>
 
 

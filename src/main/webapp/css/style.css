@@ -967,3 +967,53 @@ body {
 .email-view-actions-bar .action-btn:hover {
   background-color: #e6e6e6;
 }
+
+
+/* Floating summary box on right side */
+.floating-summary-box {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  width: 260px;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  border-radius: 8px;
+  z-index: 999;
+  display: none;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+
+/* Close button inside summary box */
+.close-summary-btn {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+}
+
+/* Summary content spacing */
+.summary-content {
+  margin-top: 10px;
+}
+
+/* Optional animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
